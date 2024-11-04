@@ -1,0 +1,81 @@
+[
+  {
+    "ContainingType": "ConfraternizacaoAPI.Controllers.MembroController",
+    "Method": "Listar",
+    "RelativePath": "api/Membro",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ConfraternizacaoAPI.Controllers.MembroController",
+    "Method": "CriarMembro",
+    "RelativePath": "api/Membro",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "membro",
+        "Type": "ConfraternizacaoAPI.Domain.MembroRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ConfraternizacaoAPI.Controllers.MembroController",
+    "Method": "ListarPorId",
+    "RelativePath": "api/Membro/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ConfraternizacaoAPI.Controllers.MembroController",
+    "Method": "Atualizar",
+    "RelativePath": "api/Membro/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "membro",
+        "Type": "ConfraternizacaoAPI.Domain.Membro",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "ConfraternizacaoAPI.Controllers.MembroController",
+    "Method": "Deletar",
+    "RelativePath": "api/Membro/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
