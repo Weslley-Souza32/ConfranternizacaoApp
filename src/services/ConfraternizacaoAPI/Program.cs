@@ -4,10 +4,13 @@ using ConfraternizacaoAPI.Mappers;
 using ConfraternizacaoAPI.Services;
 using ConfraternizacaoAPI.Validators;
 using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder (args);
-builder.Services.AddSqlServer<ApplicationDbContext> (builder.Configuration["ConnectionStrings:DefaultConnection"]);
-
+builder.Services.AddDbContext<ApplicationDbContext>(opt =>
+{
+	opt.UseInMemoryDatabase("confraternizacao");
+});
 
 builder.Services.AddControllers ()
 	.AddFluentValidation (config => config.RegisterValidatorsFromAssemblyContaining<MembrosValidations> ());
@@ -30,7 +33,7 @@ builder.Services.AddCors (options =>
 
 
 
-//Injeção de Dependência
+//Inje??o de Depend?ncia
 builder.Services.AddScoped<IMembro, MembroService> ();
 
 var app = builder.Build ();
@@ -41,7 +44,7 @@ if (app.Environment.IsDevelopment ())
     app.UseSwaggerUI ();
 }
 
-//configuração cors
+//configura??o cors
 app.UseCors (CorsDefaultName);
 
 app.UseHttpsRedirection ();

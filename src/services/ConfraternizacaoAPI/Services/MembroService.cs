@@ -3,56 +3,38 @@ using ConfraternizacaoAPI.Infra.Data;
 using ConfraternizacaoAPI.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace ConfraternizacaoAPI.Services;
 
-public class MembroService : IMembro
+public class MembroService(ApplicationDbContext context) : IMembro
 {
-	private readonly ApplicationDbContext _context;
-
-	public MembroService ( ApplicationDbContext context )
+	public async Task<Membro> CreateByAsync(Membro membro)
 	{
-		_context = context;
-	}
+		if (context.Membros.Any(x => x.Id == membro.Id))
+			throw new Exception("Membro ja existe na base de dados");
 
-	public async Task<Membro> CreateByAsync ( Membro membro )
-	{
-		bool membroExists = _context.Membros.Any (x => x.Id == membro.Id);
-
-		if (membroExists)
-			throw new Exception ();
-
-		_context.Add (membro);
-		await _context.SaveChangesAsync ();
+		context.Add(membro);
+		await context.SaveChangesAsync();
 
 		return membro;
 	}
-
-
-	public async Task DeleteAsync ( Guid id )
+	
+	public async Task DeleteAsync(Guid id)
 	{
-		var membro = await _context.Membros.FindAsync (id);
+		var membro = await context.Membros.FindAsync(id);
 		if (membro != null)
 		{
-			_context.Membros.Remove (membro);
-			await _context.SaveChangesAsync ();
+			context.Membros.Remove(membro);
+			await context.SaveChangesAsync();
 		}
 	}
 
-	public async Task<IEnumerable<Membro>> GetAll ()
-	{
-		return await _context.Membros.ToListAsync ();
-	}
+	public async Task<IEnumerable<Membro>> GetAll() => await context.Membros.ToListAsync();
 
-	public async Task<Membro> GetByIdAsync ( Guid id )
-	{
-		return await _context.Membros.FindAsync (id);
-	}
+	public async Task<Membro> GetByIdAsync(Guid id) => await context.Membros.FindAsync(id);
 
-	public async Task UpdateAsync ( Membro membro )
+	public async Task UpdateAsync(Membro membro)
 	{
-
-		_context.Update (membro);
-		await _context.SaveChangesAsync ();
+		context.Update(membro);
+		await context.SaveChangesAsync();
 	}
 }

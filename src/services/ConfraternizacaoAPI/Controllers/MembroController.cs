@@ -4,61 +4,47 @@ using ConfraternizacaoAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConfraternizacaoAPI.Controllers;
-[Route ("api/[controller]")]
+
+[Route("api/[controller]")]
 [ApiController]
-public class MembroController : ControllerBase
+public class MembroController(IMembro service, IMapper mapper) : ControllerBase
 {
-	private readonly IMembro _membro;
-	private readonly IMapper _mapper;
-
-	public MembroController ( IMembro membro, IMapper mapper )
-	{
-		_membro = membro;
-		_mapper = mapper;
-	}
-
 	[HttpGet]
 	public async Task<IActionResult> Listar()
 	{
-		var membros = await _membro.GetAll ();
-		var membrosMap = _mapper.Map<IEnumerable<MembroResponse>> (membros);
-		return Ok (membrosMap);
+		var membros = await service.GetAll();
+		var membrosMap = mapper.Map<IEnumerable<MembroResponse>>(membros);
+		return Ok(membrosMap);
 	}
 
-	[HttpGet("{id}")]
-	public async Task<IActionResult> ListarPorId(Guid id )
+	[HttpGet("{id:guid}")]
+	public async Task<IActionResult> ListarPorId(Guid id)
 	{
-		var membro = await _membro.GetByIdAsync (id);
-		var membroMap = _mapper.Map<MembroResponse> (membro);
+		var membro = await service.GetByIdAsync(id);
 		if (membro == null)
-			return NotFound ();
+			return NotFound();
 
-		return Ok(membroMap);
+		return Ok(mapper.Map<MembroResponse>(membro));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> CriarMembro ( [FromBody] MembroRequest membro )
-	{
-		var novoMembro = _mapper.Map<Membro> (membro);
-		await _membro.CreateByAsync (novoMembro);
-		return Ok(novoMembro);
-	}
+	public async Task<IActionResult> CriarMembro([FromBody] MembroRequest membro) => 
+		Ok(await service.CreateByAsync(mapper.Map<Membro>(membro)));
 
-	[HttpPut("{id}")]
-	public async Task<IActionResult> Atualizar(Guid id ,Membro membro )
+	[HttpPut("{id:guid}")]
+	public async Task<IActionResult> Atualizar(Guid id, Membro membro)
 	{
 		if (id != membro.Id)
-		{
-			return BadRequest ();
-		}
-		await _membro.UpdateAsync (membro);
+			return BadRequest();
+		await service.UpdateAsync(membro);
+		
 		return Ok();
 	}
 
-	[HttpDelete("{id}")]
-	public async Task<IActionResult> Deletar(Guid id )
+	[HttpDelete("{id:guid}")]
+	public async Task<IActionResult> Deletar(Guid id)
 	{
-		await _membro.DeleteAsync (id);
+		await service.DeleteAsync(id);
 		return NoContent();
 	}
 }
