@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ConfraternizacaoAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1187dcb26b3bd0a136a804dcbb5fcc422f7c264")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dbe2bd3626f278dae8196cdd2d291077469d3d60")]
 [assembly: System.Reflection.AssemblyProductAttribute("ConfraternizacaoAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ConfraternizacaoAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

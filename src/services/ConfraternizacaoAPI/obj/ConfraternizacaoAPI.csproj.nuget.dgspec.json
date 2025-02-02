@@ -47,6 +47,10 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
+            "Carter": {
+              "target": "Package",
+              "version": "[8.2.1, )"
+            },
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.0, )"
@@ -54,6 +58,10 @@
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
               "version": "[7.0.13, )"
+            },
+            "Microsoft.CodeAnalysis.CSharp": {
+              "target": "Package",
+              "version": "[4.12.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",

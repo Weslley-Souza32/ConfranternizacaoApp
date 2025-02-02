@@ -1,3 +1,4 @@
+using Carter;
 using ConfraternizacaoAPI.Infra.Data;
 using ConfraternizacaoAPI.Interfaces;
 using ConfraternizacaoAPI.Mappers;
@@ -6,51 +7,45 @@ using ConfraternizacaoAPI.Validators;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
-var builder = WebApplication.CreateBuilder (args);
-builder.Services.AddDbContext<ApplicationDbContext>(opt =>
-{
-	opt.UseInMemoryDatabase("confraternizacao");
-});
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<ApplicationDbContext>(opt => { opt.UseInMemoryDatabase("confraternizacao"); });
 
-builder.Services.AddControllers ()
-	.AddFluentValidation (config => config.RegisterValidatorsFromAssemblyContaining<MembrosValidations> ());
-builder.Services.AddEndpointsApiExplorer ();
-builder.Services.AddSwaggerGen ();
-builder.Services.AddAutoMapper (typeof (MembroMap));
+builder.Services.AddCarter()
+	.AddFluentValidation(config => 
+		config.RegisterValidatorsFromAssemblyContaining<MembrosValidations>());
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MembroMap));
 
 //cors
 string CorsDefaultName = "CorsPolicy";
-builder.Services.AddCors (options =>
+builder.Services.AddCors(options =>
 {
-	options.AddPolicy (name: CorsDefaultName,
-										builder =>
-										{
-											builder.AllowAnyOrigin ();
-											builder.AllowAnyHeader ();
-											builder.AllowAnyMethod ();
-										});
+	options.AddPolicy(name: CorsDefaultName,
+		builder =>
+		{
+			builder.AllowAnyOrigin();
+			builder.AllowAnyHeader();
+			builder.AllowAnyMethod();
+		});
 });
 
+builder.Services.AddScoped<IMembroRepository, MembroRepository>();
 
+var app = builder.Build();
 
-//Inje??o de Depend?ncia
-builder.Services.AddScoped<IMembro, MembroService> ();
-
-var app = builder.Build ();
-
-if (app.Environment.IsDevelopment ())
+if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger ();
-    app.UseSwaggerUI ();
+	app.UseSwagger();
+	app.UseSwaggerUI();
 }
 
 //configura??o cors
-app.UseCors (CorsDefaultName);
+app.UseCors(CorsDefaultName);
 
-app.UseHttpsRedirection ();
+app.UseHttpsRedirection();
 
-app.UseAuthorization ();
+app.MapCarter();
 
-app.MapControllers ();
-
-app.Run ();
+app.Run();
